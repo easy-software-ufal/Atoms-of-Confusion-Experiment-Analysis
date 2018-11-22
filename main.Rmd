@@ -103,7 +103,7 @@ totalTime2 <- sqldf("select Id, sum(Time) as Time
                     from totalTime2 
                     group by Id, Replica")
 
-d <- density(totalTime2$Time) # returns the density data
+d <- density(totalTime2$Time, na.rm=TRUE) # returns the density data
 plot(d, xlab="Participantes = 30; Largura de banda = 8.675",
      ylab="Densidade",
      main=expression(T[nd] - T[d]))
