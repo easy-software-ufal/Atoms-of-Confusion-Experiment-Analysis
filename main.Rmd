@@ -8,8 +8,9 @@ library(mice)
 library(gvlma)
 ```
 
+
 ```{r include=TRUE} 
-ccwo <- read.csv("/Users/fernandooliveira/workspaces/mestrado/Experimento/masters_experiment_analysis/dataset.csv")
+ccwo <- read.csv("C:/Users/nando/workspaces/ufal/easyexperiment/datasetatoms.csv")
 ccwo$Minutes[ccwo$Minutes < 5] <- NA
 ```
 
