@@ -91,12 +91,13 @@ totalTime2 <- sqldf("select Replica, Id, SetOfTasks,
                     Technique, sum(Trials) as Trials, sum(Minutes) as Time 
                     from ccwocd 
                     group by Replica, Id,SetOfTasks, Technique")
-totalTime2$Time <-ifelse(totalTime2$Technique == "D", - totalTime2$Time, totalTime2$Time)
+totalTime2$Time <-ifelse(totalTime2$Technique == "Without Atom", - totalTime2$Time, totalTime2$Time)
 totalTime2 <- sqldf("select Id, sum(Time) as Time 
                     from totalTime2 
                     group by Id, Replica")
 
 d <- density(totalTime2$Time, na.rm=TRUE) # returns the density data
+
 plot(d, xlab="Participantes = 30; Largura de banda = 8.675",
      ylab="Densidade",
      main=expression(T[nd] - T[d]))
@@ -104,17 +105,16 @@ plot(d, xlab="Participantes = 30; Largura de banda = 8.675",
 ```
 
 ```{r echo=FALSE, include=TRUE}
-boxplot(totalTime3$Trials~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(3,4,5,6),xlim=c(0, 9), width=c(0.25,0.25,0.25,0.25),
-        ylab="Tries"
+boxplot(totalTime3$Trials~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(9,14,19,24),xlim=c(0, 25), width=c(0.20,0.20,0.20,0.20),
+        ylab="Tries",
+        names=c("Atom T1", "No Atom T1", "Atom T2", "No Atom T2")
         )
 totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       Technique, sum(Trials) as Trials
                       from ccwocd
                       group by Replica, Id,SetOfTasks, Technique")
-boxplot(totalTrials$Trials~totalTrials$Technique, add=TRUE, at=c(1,2), width=c(0.1,0.1), col="grey",
-        #names=c("Disciplinado", "Não disciplinado")
-        #names=c("D.Tt", "U.Tt")
-        )
+boxplot(totalTrials$Trials~totalTrials$Technique, add=TRUE, at=c(1,5), width=c(0.1,0.1), col="grey",
+        names=c("Atom", "No Atom"))
 ```
 
 ```{r echo=FALSE, include=TRUE}
@@ -123,14 +123,14 @@ totalTime <- sqldf("select Replica, Id, SetOfTasks,
                     from ccwocd 
                     group by Replica, Id,SetOfTasks, Technique")
 
-boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F,at=c(3,4,5,6), xlim=c(0, 9), ylim=c(10,100),
-        width=c(0.25,0.25,0.25,0.25),
-        #ylab="Minutos"
-        ylab="Minutes"
+boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(9,14,19,24),xlim=c(0, 25), ylim=c(10,100),
+        width=c(0.20,0.20,0.20,0.20),
+        ylab="Minutes",
+        names=c("Atom T1", "No Atom T1", "Atom T2", "No Atom T2")
         )
 
-boxplot(totalTime$Time~totalTime$Technique, outline=F, at=c(1,2), width=c(0.1,0.1), col="grey", add=TRUE#,
-        #names=c("D.Tt", "U.Tt")
+boxplot(totalTime$Time~totalTime$Technique, outline=F, at=c(1,5), width=c(0.1,0.1), col="grey", add=TRUE,
+        names=c("Atom", "No Atom")
         )
 
 ```
@@ -142,10 +142,7 @@ totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       group by Replica, Id,SetOfTasks, Technique")
 
 totalTrials
-boxplot(totalTrials$Trials~totalTrials$Technique, 
-        #names=c("Disciplinado", "Não disciplinado")
-        #names=c("Disciplined", "Undisciplined")
-        )
+boxplot(totalTrials$Trials~totalTrials$Technique)
 ```
 
 ```{r echo=FALSE, include=TRUE}
@@ -162,8 +159,7 @@ text(4.32,60, '63%',cex = 0.7)
 
 ```{r echo=FALSE, include=TRUE}
   boxplot(totalTime3[totalTime3$Tasks == 'T1', ]$Time~totalTime3[totalTime3$Tasks == 'T1', ]$Technique+totalTime3[totalTime3$Tasks == 'T1', ]$Tasks,outline=F,
-        ylab="Minutos"
-        #ylab="Minutes"
+        ylab="Minutes"
         )
 ```
 ```{r echo=FALSE, include=TRUE}
@@ -191,16 +187,7 @@ totalTime <- sqldf("select Replica, Id, SetOfTasks,
                     group by Replica, Id,SetOfTasks, Technique")
 
 
-
-
-#totalTime$Trials <- with(totalTime, (Trials - min(Trials)) / (max(Trials) - min(Trials)))
-#totalTime$Time <- with(totalTime, (Time - min(Time)) / (max(Time) - min(Time)))
-#totalTime$Trials <- with(totalTime, sqrt(Trials))
-#totalTime$Time <- with(totalTime, sqrt(Time))
 totalTime$Time <- with(totalTime, log2(Time))
-
-
-
 ```
 
 ```{r include=TRUE}
@@ -254,8 +241,7 @@ summary(aov(Trials ~ Technique, data=totalTrials))
 
 ```{r echo=FALSE, include=TRUE}
   boxplot(totalTime3[totalTime3$Tasks == 'T2', ]$Time~totalTime3[totalTime3$Tasks == 'T2', ]$Technique+totalTime3[totalTime3$Tasks == 'T2', ]$Tasks,outline=F,
-        ylab="Minutos"
-        #ylab="Minutes"
+        ylab="Minutes"
         )
 ```
 ```{r echo=FALSE, include=TRUE}
@@ -287,12 +273,12 @@ totalTime$Time <- with(totalTime, log2(Time))
 ```{r include=TRUE}
 totalTime$Replica = as.factor(totalTime$Replica)
 totalTime$Id = as.factor(totalTime$Id)
-totalTime$SetOfTasks = as.factor(totalTime$SetOfTasks:totalTime$Id)
+totalTime$SetOfTasks = as.factor(totalTime$SetOfTasks)
 totalTime$Technique = as.factor(totalTime$Technique)
 ```
 
 ```{r include=TRUE}
-totalTime.gvlma = gvlma(lm(Time ~ Technique + SetOfTasks, data=totalTime))
+totalTime.gvlma = gvlma(lm(Time ~ Technique, data=totalTime))
 summary(totalTime.gvlma)
 ```
 
@@ -306,8 +292,7 @@ kruskal.test(Time ~ Technique, data=totalTime)
 
 ```{r echo=FALSE, include=TRUE}
   boxplot(totalTime3[totalTime3$Tasks == 'T2', ]$Trials~totalTime3[totalTime3$Tasks == 'T2', ]$Technique+totalTime3[totalTime3$Tasks == 'T2', ]$Tasks,outline=F,
-        #ylab="Minutos"
-        ylab="Tentativas"
+        ylab="Tries"
         )
 ```
 

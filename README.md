@@ -13,6 +13,7 @@ library(rmarkdown)
 library(tinytex)
 
 tinytex::install_tinytex()
+render("main.Rmd")
 render("1-example.Rmd", output_format = "word_document")
 
 Possíveis tipos
