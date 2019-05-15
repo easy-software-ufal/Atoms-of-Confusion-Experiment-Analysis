@@ -1,0 +1,61 @@
+,Replica,Id,Student,SetOfTasks,Tasks,Technique,Trials,Time,Minutes
+1,41,1,paulo,ST1,AV1.2:CO1.2:DE1.2,Without Atom,7,13.0,13.0
+1,41,1,paulo,ST2,AV2.1:CO2.1:DE2.1,With Atom,3,16.0,16.0
+1,41,2,Romário,ST1,AV1.1:CO1.1:DE1.1,With Atom,5,21.0,21.0
+1,41,2,Romário,ST2,AV2.2:CO2.2:DE2.2,Without Atom,3,15.0,15.0
+2,42,1,Igor,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,14.0,14.0
+2,42,1,Igor,ST2,AV2.1:CO2.1:DE2.1,With Atom,12,39.0,39.0
+2,42,2,Hyago,ST1,AV1.1:CO1.1:DE1.1,With Atom,7,16.0,16.0
+2,42,2,Hyago,ST2,AV2.2:CO2.2:DE2.2,Without Atom,12,22.0,22.0
+3,43,1,,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,18.0,18.0
+3,43,1,,ST2,AV2.1:CO2.1:DE2.1,With Atom,9,53.0,53.0
+3,43,2,,ST1,AV1.1:CO1.1:DE1.1,With Atom,9,21.0,21.0
+3,43,2,,ST2,AV2.2:CO2.2:DE2.2,Without Atom,5,15.0,15.0
+4,44,1,,ST1,AV1.2:CO1.2:DE1.2,Without Atom,4,9.0,9.0
+4,44,1,,ST2,AV2.1:CO2.1:DE2.1,With Atom,4,24.0,24.0
+4,44,2,,ST1,AV1.1:CO1.1:DE1.1,With Atom,6,17.0,17.0
+4,44,2,,ST2,AV2.2:CO2.2:DE2.2,Without Atom,6,23.0,23.0
+5,45,1,Matheus Costa,ST1,AV1.1:CO1.1:DE1.1,With Atom,9,25.0,25.0
+5,45,1,Matheus Costa,ST2,AV2.2:CO2.2:DE2.2,Without Atom,7,28.0,28.0
+5,45,2,Davi Jose,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,7.0,7.0
+5,45,2,Davi Jose,ST2,AV2.1:CO2.1:DE2.1,With Atom,8,18.0,18.0
+6,46,1,Marlon Lúcio,ST1,AV1.1:CO1.1:DE1.1,With Atom,7,32.0,32.0
+6,46,1,Marlon Lúcio,ST2,AV2.2:CO2.2:DE2.2,Without Atom,9,32.0,32.0
+6,46,2,Jackson Barbosa da Silva,ST1,AV1.2:CO1.2:DE1.2,Without Atom,4,10.0,10.0
+6,46,2,Jackson Barbosa da Silva,ST2,AV2.1:CO2.1:DE2.1,With Atom,12,31.0,31.0
+7,47,1,Allan,ST1,AV1.2:CO1.2:DE1.2,Without Atom,4,18.0,18.0
+7,47,1,Allan,ST2,AV2.1:CO2.1:DE2.1,With Atom,5,53.0,53.0
+7,47,2,Dielson Sales de Carvalho,ST1,AV1.1:CO1.1:DE1.1,With Atom,5,21.0,21.0
+7,47,2,Dielson Sales de Carvalho,ST2,AV2.2:CO2.2:DE2.2,Without Atom,4,24.0,24.0
+8,48,1,Thiago,ST1,AV1.1:CO1.1:DE1.1,With Atom,7,15.0,15.0
+8,48,1,Thiago,ST2,AV2.2:CO2.2:DE2.2,Without Atom,3,12.0,12.0
+8,48,2,,ST1,AV1.2:CO1.2:DE1.2,Without Atom,10,25.0,25.0
+8,48,2,,ST2,AV2.1:CO2.1:DE2.1,With Atom,29,60.0,60.0
+9,49,1,Rodrigo Lima,ST1,AV1.2:CO1.2:DE1.2,Without Atom,8,33.0,33.0
+9,49,1,Rodrigo Lima,ST2,AV2.1:CO2.1:DE2.1,With Atom,10,23.0,23.0
+9,49,2,Jardel Costa,ST1,AV1.1:CO1.1:DE1.1,With Atom,6,9.0,9.0
+9,49,2,Jardel Costa,ST2,AV2.2:CO2.2:DE2.2,Without Atom,3,2.0,2.0
+10,50,1,Felipe Pontes,ST1,AV1.1:CO1.1:DE1.1,With Atom,8,21.0,21.0
+10,50,1,Felipe Pontes,ST2,AV2.2:CO2.2:DE2.2,Without Atom,5,19.0,19.0
+10,50,2,Jairo Souza,ST1,AV1.2:CO1.2:DE1.2,Without Atom,7,19.0,19.0
+10,50,2,Jairo Souza,ST2,AV2.1:CO2.1:DE2.1,With Atom,10,29.0,29.0
+11,51,1,julios,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,22.0,22.0
+11,51,1,julios,ST2,AV2.1:CO2.1:DE2.1,With Atom,6,24.0,24.0
+11,51,2,Romero Malaquias,ST1,AV1.1:CO1.1:DE1.1,With Atom,6,9.0,9.0
+11,51,2,Romero Malaquias,ST2,AV2.2:CO2.2:DE2.2,Without Atom,5,15.0,15.0
+12,53,1,Bruno Georgevich Ferreira,ST1,AV1.1:CO1.1:DE1.1,With Atom,5,11.0,11.0
+12,53,1,Bruno Georgevich Ferreira,ST2,AV2.2:CO2.2:DE2.2,Without Atom,4,8.0,8.0
+12,53,2,jadson,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,9.0,9.0
+12,53,2,jadson,ST2,AV2.1:CO2.1:DE2.1,With Atom,15,31.0,31.0
+13,55,1,,ST1,AV1.1:CO1.1:DE1.1,With Atom,5,23.0,23.0
+13,55,1,,ST2,AV2.2:CO2.2:DE2.2,Without Atom,4,19.0,19.0
+13,55,2,Arthur,ST1,AV1.2:CO1.2:DE1.2,Without Atom,5,10.0,10.0
+13,55,2,Arthur,ST2,AV2.1:CO2.1:DE2.1,With Atom,19,46.0,46.0
+14,52,1,,ST1,AV1.1:CO1.1:DE1.1,With Atom,9,23.0,23.0
+14,52,1,,ST2,AV2.2:CO2.2:DE2.2,Without Atom,24,38.0,38.0
+14,52,2,vinicius lopes,ST1,AV1.2:CO1.2:DE1.2,Without Atom,7,16.0,16.0
+14,52,2,vinicius lopes,ST2,AV2.1:CO2.1:DE2.1,With Atom,14,52.0,52.0
+15,54,1,Thiago Tenorio,ST1,AV1.2:CO1.2:DE1.2,Without Atom,4,27.0,27.0
+15,54,1,Thiago Tenorio,ST2,AV2.1:CO2.1:DE2.1,With Atom,7,34.0,34.0
+15,54,2,Joao Victor Ribeiro Ferro,ST1,AV1.1:CO1.1:DE1.1,With Atom,6,33.0,33.0
+15,54,2,Joao Victor Ribeiro Ferro,ST2,AV2.2:CO2.2:DE2.2,Without Atom,3,26.0,26.0
