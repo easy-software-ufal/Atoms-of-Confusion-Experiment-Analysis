@@ -10,7 +10,7 @@ library(gvlma)
 
 
 ```{r include=TRUE} 
-ccwo <- read.csv("C:/Users/nando/workspaces/ufal/masters_experiment_analysis/datasetatoms.csv")
+ccwo <- read.csv("datasetatoms3.csv")
 ccwo$Minutes[ccwo$Minutes < 0] <- NA
 ```
 
@@ -33,7 +33,7 @@ totalTime <- sqldf("select Replica, Id, SetOfTasks,
 
 ```{r echo=FALSE, include=TRUE}
 totalTime
-boxplot(totalTime$Time~totalTime$Technique,outline=F,ylab="Minutos")
+boxplot(totalTime$Time~totalTime$Technique,outline=F,ylab="Minutes")
 ```
 
 ```{r echo=FALSE, include=TRUE}
@@ -41,18 +41,21 @@ totalTime3 <- sqldf("select Replica, Id, Tasks, Technique, sum(Trials) as Trials
                     from ccwocd 
                     group by Replica, Id, Tasks, Technique")
 
-totalTime3$Tasks <- as.character(totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV1.2:CO1.2:DE1.2", "T1", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV1.1:CO1.1:DE1.1", "T1", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV2.1:CO2.1:DE2.1", "T2", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV2.2:CO2.2:DE2.2", 'T2', totalTime3$Tasks)
+totalTime3$Tasks <- as.numeric(totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 4, 1, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 5, 2, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 6, 3, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 1, 'AV', totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 2, 'CO', totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 3, 'DE', totalTime3$Tasks)
 
 totalTime3 <- sqldf("select Replica, Tasks, Technique, sum(Trials) as Trials, sum(Time) as Time 
                     from totalTime3 
                     group by Replica, Tasks, Technique")
-
+print(totalTime3$Time~totalTime3$Technique)
 boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F,
-        #ylab="Minutos"
+        at=c(1,5,9,13,17,21), width=c(0.1,0.1,0.1,0.1,0.1,0.1),
+        cex.axis=0.8, # font
         ylab="Minutes"
         )
 ```
@@ -61,29 +64,34 @@ boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F,
 totalTime3 <- sqldf("select Replica, Id, Tasks, Technique, sum(Trials) as Trials, sum(Minutes) as Time 
                     from ccwocd 
                     group by Replica, Id, Tasks, Technique")
-totalTime3$Tasks <- as.character(totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV1.2:CO1.2:DE1.2", "T1", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV1.1:CO1.1:DE1.1", "T1", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV2.1:CO2.1:DE2.1", "T2", totalTime3$Tasks)
-totalTime3$Tasks <- ifelse(totalTime3$Tasks == "AV2.2:CO2.2:DE2.2", 'T2', totalTime3$Tasks)
+totalTime3$Tasks <- as.numeric(totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 4, 1, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 5, 2, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 6, 3, totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 1, 'AV', totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 2, 'CO', totalTime3$Tasks)
+totalTime3$Tasks <- ifelse(totalTime3$Tasks == 3, 'DE', totalTime3$Tasks)
 
-#totalTime3$Technique <- ifelse(totalTime3$Technique == 'U', 'ND', 'D')
 totalTime3 <- sqldf("select Replica, Tasks, Technique, sum(Trials) as Trials, sum(Time) as Time 
                     from totalTime3 
                     group by Replica, Tasks, Technique")
 totalTime3
 boxplot(totalTime3$Trials~totalTime3$Technique+totalTime3$Tasks,outline=F,
-        #ylab="Tentativas"
+        at=c(1,5,9,13,17,21), width=c(0.1,0.1,0.1,0.1,0.1,0.1),
+        cex.axis=0.8, # font
         ylab="Tries"
         )
 ccwocd
-t1 <- sqldf("select Replica, Tasks, Minutes, Time from ccwocd WHERE Tasks = 'AV1.2:CO1.2:DE1.2' OR Tasks = 'AV1.1:CO1.1:DE1.1'")
+t1 <- sqldf("select Replica, Tasks, Minutes, Time from ccwocd WHERE Tasks = 'AV1' OR Tasks = 'AV2'")
 t1
-t2 <- sqldf("select Replica, Tasks, Minutes, Time from ccwocd WHERE Tasks = 'AV2.1:CO2.1:DE2.1' OR Tasks = 'AV2.2:CO2.2:DE2.2'")
+t2 <- sqldf("select Replica, Tasks, Minutes, Time from ccwocd WHERE Tasks = 'CO1' OR Tasks = 'CO2'")
 t2
+t3 <- sqldf("select Replica, Tasks, Minutes, Time from ccwocd WHERE Tasks = 'DE1' OR Tasks = 'DE2'")
+t3
 
 mean(t1$Time)
 mean(t2$Time)
+mean(t3$Time)
 ```
 
 ```{r echo=FALSE, include=TRUE}
@@ -97,24 +105,25 @@ totalTime2 <- sqldf("select Id, sum(Time) as Time
                     group by Id, Replica")
 
 d <- density(totalTime2$Time, na.rm=TRUE) # returns the density data
-
-plot(d, xlab="Participantes = 30; Largura de banda = 8.675",
-     ylab="Densidade",
-     main=expression(T[nd] - T[d]))
+print(d)
+plot(d, xlab="Participantes = 30; Bandwidth = 6.463",
+     ylab="Density",
+     main=expression(T[wa] - T[na]))
 
 ```
 
 ```{r echo=FALSE, include=TRUE}
-boxplot(totalTime3$Trials~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(9,14,19,24),xlim=c(0, 25), width=c(0.20,0.20,0.20,0.20),
+boxplot(totalTime3$Trials~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(3,4,5,6,7,8),xlim=c(0, 9), width=c(0.25,0.25,0.25,0.25,0.25,0.25),
         ylab="Tries",
-        names=c("Atom T1", "No Atom T1", "Atom T2", "No Atom T2")
+        names=c("WA.AV", "NA.AV", "WA.CO", "NA.CO", "WA.DE", "NA.DE"),
+        cex.axis=0.9 # font
         )
 totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       Technique, sum(Trials) as Trials
                       from ccwocd
                       group by Replica, Id,SetOfTasks, Technique")
-boxplot(totalTrials$Trials~totalTrials$Technique, add=TRUE, at=c(1,5), width=c(0.1,0.1), col="grey",
-        names=c("Atom", "No Atom"))
+boxplot(totalTrials$Trials~totalTrials$Technique, add=TRUE, at=c(1,2), width=c(0.1,0.1), col="grey", cex.axis=0.9, # font
+        names=c("WA", "NA"))
 ```
 
 ```{r echo=FALSE, include=TRUE}
@@ -123,14 +132,15 @@ totalTime <- sqldf("select Replica, Id, SetOfTasks,
                     from ccwocd 
                     group by Replica, Id,SetOfTasks, Technique")
 
-boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(9,14,19,24),xlim=c(0, 25), ylim=c(10,100),
-        width=c(0.20,0.20,0.20,0.20),
+boxplot(totalTime3$Time~totalTime3$Technique+totalTime3$Tasks,outline=F, at=c(3,4,5,6,7,8),xlim=c(0, 9), ylim=c(10,100),
+        width=c(0.20,0.20,0.20,0.20,0.20,0.20),
         ylab="Minutes",
-        names=c("Atom T1", "No Atom T1", "Atom T2", "No Atom T2")
+        cex.axis=0.9,
+        names=c("WA.AV", "NA.AV", "WA.CO", "NA.CO", "WA.DE", "NA.DE")
         )
 
-boxplot(totalTime$Time~totalTime$Technique, outline=F, at=c(1,5), width=c(0.1,0.1), col="grey", add=TRUE,
-        names=c("Atom", "No Atom")
+boxplot(totalTime$Time~totalTime$Technique, outline=F, at=c(1,2), width=c(0.1,0.1), col="grey", add=TRUE,cex.axis=0.9,
+        names=c("WA", "NA")
         )
 
 ```
@@ -158,14 +168,14 @@ text(4.32,60, '63%',cex = 0.7)
 ```
 
 ```{r echo=FALSE, include=TRUE}
-  boxplot(totalTime3[totalTime3$Tasks == 'T1', ]$Time~totalTime3[totalTime3$Tasks == 'T1', ]$Technique+totalTime3[totalTime3$Tasks == 'T1', ]$Tasks,outline=F,
+  boxplot(totalTime3[totalTime3$Tasks == 'AV', ]$Time~totalTime3[totalTime3$Tasks == 'AV', ]$Technique+totalTime3[totalTime3$Tasks == 'AV', ]$Tasks,outline=F,
         ylab="Minutes"
         )
 ```
 ```{r echo=FALSE, include=TRUE}
 totalTime2 <- sqldf("select Replica, Id, SetOfTasks, 
                     Technique, sum(Trials) as Trials, sum(Minutes) as Time 
-                    from ccwocd Where Tasks = 'AV1.1:CO1.1:DE1.1' or Tasks = 'AV1.2:CO1.2:DE1.2'
+                    from ccwocd Where Tasks = 'AV1' or Tasks = 'AV2'
                     group by Replica, Id,SetOfTasks, Technique")
 totalTime2$Time <-ifelse(totalTime2$Technique == "Without Atom", - totalTime2$Time, totalTime2$Time)
 totalTime2 <- sqldf("select Id, sum(Time) as Time 
@@ -174,8 +184,9 @@ totalTime2 <- sqldf("select Id, sum(Time) as Time
 
 
 d <- density(totalTime2$Time) # returns the density data 
-plot(d,  xlab="Participantes = 30; Largura de banda = 4.082",
-     ylab="Densidade",
+print(d)
+plot(d,  xlab="Participantes = 30; Bandwidth = 3.317",
+     ylab="Density",
      main=expression(T[nd] - T[d]))
 
 ```
@@ -183,7 +194,7 @@ plot(d,  xlab="Participantes = 30; Largura de banda = 4.082",
 ```{r include=TRUE}
 totalTime <- sqldf("select Replica, Id, SetOfTasks, 
                     Technique, sum(Trials) as Trials, sum(Minutes) as Time 
-                    from ccwocd where Tasks = 'AV1.1:CO1.1:DE1.1' or Tasks = 'AV1.2:CO1.2:DE1.2'
+                    from ccwocd where Tasks = 'AV1' or Tasks = 'AV2'
                     group by Replica, Id,SetOfTasks, Technique")
 
 
@@ -207,8 +218,8 @@ summary(aov(lm(Time ~ Technique, data=totalTime)))
 ```
 
 ```{r echo=FALSE, include=TRUE}
-  boxplot(totalTime3[totalTime3$Tasks == 'T1', ]$Trials~totalTime3[totalTime3$Tasks == 'T1', ]$Technique+totalTime3[totalTime3$Tasks == 'T1', ]$Tasks,outline=F,
-        #ylab="Minutos"
+  boxplot(totalTime3[totalTime3$Tasks == 'AV', ]$Trials~totalTime3[totalTime3$Tasks == 'AV', ]$Technique+totalTime3[totalTime3$Tasks == 'AV', ]$Tasks,outline=F,
+        #ylab="Minutes"
         ylab="Tries"
         )
 ```
@@ -216,7 +227,7 @@ summary(aov(lm(Time ~ Technique, data=totalTime)))
 ```{r include=TRUE}
 totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       Technique, sum(Trials) as Trials
-                      from ccwocd where Tasks = 'AV1.1:CO1.1:DE1.1' or Tasks = 'AV1.2:CO1.2:DE1.2'
+                      from ccwocd where Tasks = 'AV1' or Tasks = 'AV2'
                       group by Replica, Id,SetOfTasks, Technique")
 totalTrials$Trials <- with(totalTrials, Trials + 1)
 totalTrials$Trials <- with(totalTrials, log2(Trials))
@@ -240,14 +251,14 @@ summary(aov(Trials ~ Technique, data=totalTrials))
 ```
 
 ```{r echo=FALSE, include=TRUE}
-  boxplot(totalTime3[totalTime3$Tasks == 'T2', ]$Time~totalTime3[totalTime3$Tasks == 'T2', ]$Technique+totalTime3[totalTime3$Tasks == 'T2', ]$Tasks,outline=F,
+  boxplot(totalTime3[totalTime3$Tasks == 'CO', ]$Time~totalTime3[totalTime3$Tasks == 'CO', ]$Technique+totalTime3[totalTime3$Tasks == 'CO', ]$Tasks,outline=F,
         ylab="Minutes"
         )
 ```
 ```{r echo=FALSE, include=TRUE}
 totalTime2 <- sqldf("select Replica, Id, SetOfTasks, Tasks, 
                     Technique, sum(Trials) as Trials, sum(Minutes) as Time 
-                    from ccwocd Where Tasks = 'AV2.1:CO2.1:DE2.1' or Tasks = 'AV2.2:CO2.2:DE2.2'
+                    from ccwocd Where Tasks = 'CO1' or Tasks = 'CO2'
                     group by Replica, Id,SetOfTasks, Technique")
 totalTime2$Time <-ifelse(totalTime2$Technique == "Without Atom", - totalTime2$Time, totalTime2$Time)
 totalTime2 <- sqldf("select Id, sum(Time) as Time 
@@ -255,8 +266,9 @@ totalTime2 <- sqldf("select Id, sum(Time) as Time
                     group by Id, Replica")
 
 d <- density(totalTime2$Time) # returns the density data 
-plot(d,  xlab="Participantes = 30; Largura de banda = 5.528",
-     ylab="Densidade",
+print(d)
+plot(d,  xlab="Participantes = 30; Bandwidth = 5.443",
+     ylab="Density",
      main=expression(T[nd] - T[d]))
 
 ```
@@ -264,7 +276,7 @@ plot(d,  xlab="Participantes = 30; Largura de banda = 5.528",
 ```{r include=TRUE}
 totalTime <- sqldf("select Replica, Id, SetOfTasks, 
                     Technique, sum(Trials) as Trials, sum(Minutes) as Time 
-                    from ccwocd where Tasks = 'AV2.1:CO2.1:DE2.1' or Tasks = 'AV2.2:CO2.2:DE2.2'
+                    from ccwocd where Tasks = 'CO1' or Tasks = 'CO2'
                     group by Replica, Id,SetOfTasks, Technique")
 
 totalTime$Time <- with(totalTime, log2(Time))
@@ -278,7 +290,8 @@ totalTime$Technique = as.factor(totalTime$Technique)
 ```
 
 ```{r include=TRUE}
-totalTime.gvlma = gvlma(lm(Time ~ Technique, data=totalTime))
+print(totalTime)
+totalTime.gvlma = gvlma(lm(Time ~ Technique + SetOfTasks, data=totalTime))
 summary(totalTime.gvlma)
 ```
 
@@ -291,7 +304,7 @@ kruskal.test(Time ~ Technique, data=totalTime)
 ```
 
 ```{r echo=FALSE, include=TRUE}
-  boxplot(totalTime3[totalTime3$Tasks == 'T2', ]$Trials~totalTime3[totalTime3$Tasks == 'T2', ]$Technique+totalTime3[totalTime3$Tasks == 'T2', ]$Tasks,outline=F,
+  boxplot(totalTime3[totalTime3$Tasks == 'CO', ]$Trials~totalTime3[totalTime3$Tasks == 'CO', ]$Technique+totalTime3[totalTime3$Tasks == 'CO', ]$Tasks,outline=F,
         ylab="Tries"
         )
 ```
@@ -299,7 +312,7 @@ kruskal.test(Time ~ Technique, data=totalTime)
 ```{r include=TRUE}
 totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       Technique, sum(Trials) as Trials
-                      from ccwocd where Tasks = 'AV2.1:CO2.1:DE2.1' or Tasks = 'AV2.2:CO2.2:DE2.2'
+                      from ccwocd where Tasks = 'CO1' or Tasks = 'CO2'
                       group by Replica, Id,SetOfTasks, Technique")
 
 totalTrials$Trials <-ifelse(totalTrials$Trials == 0, 1, totalTrials$Trials)

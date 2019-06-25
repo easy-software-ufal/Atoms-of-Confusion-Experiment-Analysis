@@ -1,20 +1,17 @@
-﻿# masters_experiment_analysis
+# masters_experiment_analysis
 Data analysis for my Master Experiment Data
 
 Renderizando
 
-install.packages("devtools")
 install.packages("rmarkdown")
 install.packages("tinytex")
-library(devtools)
-devtools::install_github('yihui/tinytex')
 
 library(rmarkdown)
 library(tinytex)
-
 tinytex::install_tinytex()
+
 render("main.Rmd")
-render("1-example.Rmd", output_format = "word_document")
+render("main.Rmd", output_format = "word_document")
 
 Possíveis tipos
 
