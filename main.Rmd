@@ -152,7 +152,7 @@ totalTrials <- sqldf("select Replica, Id, SetOfTasks,
                       group by Replica, Id,SetOfTasks, Technique")
 
 totalTrials
-boxplot(totalTrials$Trials~totalTrials$Technique)
+boxplot(totalTrials$Trials~totalTrials$Technique, ylab="Trials")
 ```
 
 ```{r echo=FALSE, include=TRUE}

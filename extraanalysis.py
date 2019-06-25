@@ -11,6 +11,7 @@ with open('datasetatoms.csv') as csv_file:
     entries_count_without_atoms = 0
 
     number_finished_with_atom_faster = 0
+    number_finished_with_atom_less_tries = 0
 
     data = []
     for row in csv_reader:
@@ -49,19 +50,29 @@ with open('datasetatoms.csv') as csv_file:
         if dict_key not in grouped_by_participant:
             grouped_by_participant[dict_key] = {}
 
-        grouped_by_participant[dict_key][row[6]] = float(row[9])
+        grouped_by_participant[dict_key][row[6]] = {'time': float(row[9]), 'trials': float(row[8])}
 
     number_finished_with_atom_faster_time_difference = 0
+    number_finished_with_atom_less_tries_difference = 0
     for key, participant in grouped_by_participant.items():
-        if participant['Without Atom'] > participant['With Atom']:
+        if participant['Without Atom']['time'] > participant['With Atom']['time']:
             number_finished_with_atom_faster += 1
-            print("%f %f" % (participant['Without Atom'], participant['With Atom']))
-            print("%f" % (participant['Without Atom'] - participant['With Atom']))
-            number_finished_with_atom_faster_time_difference += (participant['Without Atom'] - participant['With Atom'])
+            print("%f %f" % (participant['Without Atom']['time'], participant['With Atom']['time']))
+            print("%f" % (participant['Without Atom']['time'] - participant['With Atom']['time']))
+            number_finished_with_atom_faster_time_difference += (participant['Without Atom']['time'] - participant['With Atom']['time'])
+
+        if participant['Without Atom']['trials'] > participant['With Atom']['trials']:
+            number_finished_with_atom_less_tries += 1
+            print("%f %f" % (participant['Without Atom']['trials'], participant['With Atom']['trials']))
+            print("%f" % (participant['Without Atom']['trials'] - participant['With Atom']['trials']))
+            number_finished_with_atom_less_tries_difference += (participant['Without Atom']['trials'] - participant['With Atom']['trials'])
 
 
     print("Number of users which finished with atoms faster than without atoms = %f" % (number_finished_with_atom_faster))
     print("Number of users which finished with atoms faster than without atoms medium = %f" % (number_finished_with_atom_faster_time_difference / number_finished_with_atom_faster))
+    print("Number of users which finished with atoms less tries than without atoms = %f" % (number_finished_with_atom_less_tries))
+    print("Number of users which finished with atoms less tries than without atoms medium = %f" % (number_finished_with_atom_less_tries_difference / number_finished_with_atom_less_tries))
 
     print(number_finished_with_atom_faster_time_difference)
+    print(number_finished_with_atom_less_tries_difference)
     # print(f"Total time with atoms {total_time_with_atoms} minutes")
